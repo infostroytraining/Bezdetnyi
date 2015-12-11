@@ -1,0 +1,38 @@
+* {
+    border: 1px solid greenyellow;
+}
+#register-form{
+    text-align: center;
+    width: 120vmin;
+}
+#register-form input{
+    display: block;
+    margin: 2vmin;
+}
+input[type="text"], [type="password"]{
+    width: 40vmin;
+    height: 5vmin;
+    font-size: larger;
+}
+input[type="submit"]{
+    width: 15vmin;
+    height: 4vmin;
+}
+#input-text-box{
+    display: inline-block;
+    position: relative;
+    width: 50%;
+}
+#photo-box{
+    display: inline-block;
+    position: relative;
+}
+#input-photo-box{
+    display: inline-block;
+    position: relative;
+    width: 49%;
+}
+#input-photo-box input{
+    bottom: 0;
+    text-align: center;
+}
