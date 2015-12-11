@@ -12,14 +12,12 @@ public class User {
     private String firstName;
 
     private String lastName;
-    private String photo;
 
-    public User(String firstName, String lastName, String email, String password, String photo){
+    public User(String firstName, String lastName, String email, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.photo = photo;
     }
 
     public int getId() {
@@ -60,13 +58,5 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 }

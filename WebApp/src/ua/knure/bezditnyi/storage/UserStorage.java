@@ -20,7 +20,7 @@ public class UserStorage {
         storage = new HashMap<>();
         for(int i = 0; i < 5; i++){
             User user = new User("Name" + i, "Surname" + i,
-                    i + "email@email.ua", "password" + i, null);
+                    i + "email@email.ua", "password" + i);
             int id = generateId();
             user.setId(id);
             storage.put(id, user);

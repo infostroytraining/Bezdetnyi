@@ -1,12 +1,14 @@
-* {
+{
     border: 1px solid greenyellow;
 }
 #register-form{
+}
+#register-box{
     text-align: center;
-    width: 120vmin;
+    width: 65vmin;
 }
 #register-form input{
-    display: block;
+    display: inline-block;
     margin: 2vmin;
 }
 input[type="text"], [type="password"]{
@@ -15,24 +17,21 @@ input[type="text"], [type="password"]{
     font-size: larger;
 }
 input[type="submit"]{
-    width: 15vmin;
-    height: 4vmin;
+    width: 28vmin;
+    height: 5vmin;
+    font-size: larger;
 }
 #input-text-box{
     display: inline-block;
     position: relative;
-    width: 50%;
+    width: 60vmin;
 }
-#photo-form{
-    display: inline-block;
-    position: relative;
-}
-#input-photo-box{
-    display: inline-block;
-    position: relative;
-    width: 49%;
-}
-#input-photo-box input{
-    bottom: 0;
+#captcha-box{
     text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 50vmin;
+}
+#captcha-box img{
+    margin: 2vmin 2vmin 0;
 }
