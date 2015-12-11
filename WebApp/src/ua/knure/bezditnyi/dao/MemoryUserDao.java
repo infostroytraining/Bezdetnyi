@@ -18,7 +18,7 @@ public class MemoryUserDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        return this.storage.add(entity);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MemoryUserDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return null;
+        return storage.getAll();
     }
 
     @Override

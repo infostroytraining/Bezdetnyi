@@ -17,13 +17,14 @@ public class UserStorage {
     private static AtomicInteger id = new AtomicInteger();
 
     public UserStorage(){
-        storage = new HashMap<Integer, User>();
-        storage.put(generateId(), new User("Name0", "Surname0", "email0@qwe.ua", "password0", null));
-        storage.put(generateId(), new User("Name1", "Surname1", "email1@qwe.ua", "password1", null));
-        storage.put(generateId(), new User("Name2", "Surname2", "email2@qwe.ua", "password2", null));
-        storage.put(generateId(), new User("Name3", "Surname3", "email3@qwe.ua", "password3", null));
-        storage.put(generateId(), new User("Name4", "Surname4", "email4@qwe.ua", "password4", null));
-        storage.put(generateId(), new User("Name5", "Surname5", "email5@qwe.ua", "password5", null));
+        storage = new HashMap<>();
+        for(int i = 0; i < 5; i++){
+            User user = new User("Name" + i, "Surname" + i,
+                    i + "email@email.ua", "password" + i, null);
+            int id = generateId();
+            user.setId(id);
+            storage.put(id, user);
+        }
     }
     
     public User add(User user){
@@ -34,7 +35,7 @@ public class UserStorage {
     }
 
     public List<User> getAll(){
-        return new ArrayList<User>(storage.values());
+        return new ArrayList<>(storage.values());
     }
 
     private static int generateId(){

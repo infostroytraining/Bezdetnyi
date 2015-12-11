@@ -19,7 +19,7 @@ public class ContextListener implements ServletContextListener {
         UserDao userDao = new MemoryUserDao(storage);
         UserService userService = new UserService(userDao);
 
-        servletContextEvent.getServletContext().setAttribute("usrService", userService);
+        servletContextEvent.getServletContext().setAttribute("userService", userService);
     }
 
     @Override

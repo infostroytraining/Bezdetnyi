@@ -23,7 +23,7 @@ input[type="submit"]{
     position: relative;
     width: 50%;
 }
-#photo-box{
+#photo-form{
     display: inline-block;
     position: relative;
 }
