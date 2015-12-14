@@ -1,4 +1,4 @@
-package ua.knure.bezditnyi.storage;
+package ua.knure.bezditnyi.dao.implementation;
 
 import ua.knure.bezditnyi.entity.User;
 
@@ -32,6 +32,11 @@ public class UserStorage {
         user.setId(id);
         storage.put(id, user);
         return user;
+    }
+
+    public User create(){
+        int id = generateId();
+        return new User(id);
     }
 
     public List<User> getAll(){

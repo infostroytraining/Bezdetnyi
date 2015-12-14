@@ -1,6 +1,7 @@
-package ua.knure.bezditnyi.dao;
+package ua.knure.bezditnyi.dao.implementation;
 
-import ua.knure.bezditnyi.storage.UserStorage;
+
+import ua.knure.bezditnyi.dao.interfaces.UserDao;
 import ua.knure.bezditnyi.entity.User;
 
 import java.util.List;
@@ -17,7 +18,12 @@ public class MemoryUserDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create() {
+        return this.storage.create();
+    }
+
+    @Override
+    public User insert(User entity) {
         return this.storage.add(entity);
     }
 
@@ -42,7 +48,7 @@ public class MemoryUserDao implements UserDao {
     }
 
     @Override
-    public User getByEmail() {
+    public User getByEmail(String email) {
         return null;
     }
 }

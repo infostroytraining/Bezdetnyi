@@ -1,12 +1,13 @@
 package ua.knure.bezditnyi.web.servlet;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
 import nl.captcha.Captcha;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.knure.bezditnyi.dto.UserDto;
 import ua.knure.bezditnyi.entity.User;
 import ua.knure.bezditnyi.service.UserService;
+import ua.knure.bezditnyi.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,10 +25,11 @@ import java.util.List;
 @MultipartConfig
 public class RegisterServlet extends HttpServlet {
 
+    private static Logger log = LogManager.getLogger(RegisterServlet.class.getName());
     public static final String SALT = "Petrolatum";
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserService userService = (UserService)request.getServletContext().getAttribute("userService");
+        UserService userService = (UserService) request.getServletContext().getAttribute("userService");
 
         String firstName = new String(request
                 .getParameter("firstName")
@@ -48,19 +50,22 @@ public class RegisterServlet extends HttpServlet {
         UserDto userDto = new UserDto(firstName, lastName, email, password);
 
         List<String> errors = new ArrayList<>();
-        if(!FormValidator.validateFormFields(new String[]{
+        if (!FormValidator.validateFormFields(new String[]{
                 firstName, email, password, passwordConfirmation}))
             errors.add("Все поля помечненные '*' должны быть заполнены.");
-        if(!FormValidator.validatePasswords(password ,passwordConfirmation))
+        if (!FormValidator.validatePasswords(password, passwordConfirmation))
             errors.add("Пароли не совпадают.>");
-        if(!isCaptchaSucceed(request))
+        if (!isCaptchaSucceed(request))
             errors.add("Captcha не верна");
 
-        if (errors.size() == 0)
-        {
-            userService.registerUser(new User(firstName, lastName, email,
-                    DigestUtils.shaHex(password + SALT)));
-            request.setAttribute("users", userService.getAll());
+        if (errors.size() == 0) {
+            try {
+                userService.registerUser(new User(firstName, lastName, email,
+                        DigestUtils.shaHex(password + SALT)));
+                request.setAttribute("users", userService.getAll());
+            } catch (ServiceException e) {
+                log.error("ServiceException occurred when registering the user");
+            }
             request.getRequestDispatcher("users.jsp").forward(request, response);
         } else {
             request.setAttribute("user", userDto);
