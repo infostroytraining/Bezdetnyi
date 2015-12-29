@@ -1,8 +1,10 @@
 package ua.knure.bezditnyi;
 
-import ua.knure.bezditnyi.invoker.Invoker;
+import ua.knure.bezditnyi.command.Command;
+import ua.knure.bezditnyi.command.DuplicatesCommand;
+import ua.knure.bezditnyi.command.FrequencyCommand;
+import ua.knure.bezditnyi.command.LengthCommand;
 import ua.knure.bezditnyi.jcommander.Settings;
-import ua.knure.bezditnyi.receiver.Analyzer;
 
 import com.beust.jcommander.JCommander;
 import org.apache.logging.log4j.LogManager;
@@ -12,15 +14,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * Created by Artem on 18.12.2015.
  */
-public class Main {
+public class Analyzer {
 
-    private static Logger log = LogManager.getLogger(Main.class.getName());
+    private static Logger log = LogManager.getLogger(Analyzer.class.getName());
+
+    private static Map<String, Command> commands = new HashMap<>();
 
     public static void main(String[] args){
         Settings settings = new Settings();
@@ -32,28 +38,26 @@ public class Main {
             return;
         }
 
+        initializeCommandsMap(settings);
+        System.out.println("Using parallel streams: " + settings.isUseParallelStreams());
+
         String fileName = settings.getInput();
         List<String> words = readWordsFromFile(fileName);
-        Invoker invoker = getInvoker(words);
-        executeTasks(invoker, settings);
+        executeTasks(commands, settings, words);
     }
 
-    private static Invoker getInvoker(List<String> words){
-        Analyzer analyzer = new Analyzer();
-        return new Invoker(
-                () -> analyzer.frequency(words),
-                () -> analyzer.duplicates(words),
-                () -> analyzer.length(words));
+    private static void initializeCommandsMap(Settings settings) {
+        commands.put("frequency", new FrequencyCommand(settings.isUseParallelStreams()));
+        commands.put("duplicates", new DuplicatesCommand(settings.isUseParallelStreams()));
+        commands.put("length", new LengthCommand(settings.isUseParallelStreams()));
     }
 
-    private static void executeTasks(Invoker invoker, Settings settings){
-        List<Settings.TaskEnum> tasks = settings.getTasks();
-        if (tasks.contains(Settings.TaskEnum.Frequency))
-            invoker.showFrequency();
-        if (tasks.contains(Settings.TaskEnum.Duplicates))
-            invoker.showDuplicates();
-        if (tasks.contains(Settings.TaskEnum.Length))
-            invoker.showLength();
+
+    private static void executeTasks(Map<String, Command> commands, Settings settings, List<String> words){
+        List<String> tasks = settings.getTasks();
+        for (String task : tasks){
+            commands.get(task).execute(words);
+        }
     }
 
     private static List<String> readWordsFromFile(String fileName){

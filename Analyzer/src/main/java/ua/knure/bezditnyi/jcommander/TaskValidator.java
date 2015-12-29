@@ -13,8 +13,8 @@ public class TaskValidator implements IParameterValidator {
     @Override
     public void validate(String name, String value) throws ParameterException {
         if (!"frequency".equals(value) && !"length".equals(value) &&
-                "duplicates".equals(value)){
-            throw new ParameterException("Parameter {} must be 'frequency', 'length' or 'duplicates'");
+                !"duplicates".equals(value)){
+            throw new ParameterException("Parameter " + name + " must be 'frequency', 'length' or 'duplicates'");
         }
     }
 }

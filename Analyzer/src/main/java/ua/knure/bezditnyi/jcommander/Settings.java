@@ -12,48 +12,30 @@ public class Settings {
     @Parameter(names = {"-i", "--input"}, required = true, description = "Path to the input file")
     private String input;
 
-    // multiple tasks can be executed at the same time
     @Parameter(names = {"-t", "--task"}, required = true, description = "Task to execute",
-            variableArity = true, validateWith = TaskValidator.class, converter = TaskConverter.class)
-    private List<TaskEnum> tasks;
+            variableArity = true, validateWith = TaskValidator.class)
+    private List<String> tasks;
 
     @Parameter(names = {"-a" ,"--help"}, help = true, description = "Detailed information of how to use this app")
     private boolean help;
 
-    public enum TaskEnum {
-        Frequency, Length, Duplicates;
-
-        public static TaskEnum fromString(String stringTask){
-            for(TaskEnum task : TaskEnum.values()) {
-                if(task.toString().equalsIgnoreCase(stringTask)) {
-                    return task;
-                }
-            }
-            return null;
-        }
-    }
+    @Parameter(names = {"-p", "--parallel"}, description = "Using parallel streams")
+    private boolean useParallelStreams;
 
     public String getInput() {
         return input;
     }
 
-    public void setInput(String input) {
-        this.input = input;
-    }
-
-    public List<TaskEnum> getTasks() {
+    public List<String> getTasks() {
         return tasks;
-    }
-
-    public void setTasks(List<TaskEnum> tasks) {
-        this.tasks = tasks;
     }
 
     public boolean isHelp() {
         return help;
     }
 
-    public void setHelp(boolean help) {
-        this.help = help;
+    public boolean isUseParallelStreams() {
+        return useParallelStreams;
     }
+
 }
